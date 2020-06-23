@@ -16,8 +16,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Chat App',
       theme: ThemeData(
-        primaryColor: Colors.amberAccent,
+        primaryColor: Colors.lightBlueAccent[100],
+        primaryColorDark: Colors.pink,
+        primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        buttonTheme: ButtonTheme.of(context).copyWith(
+          buttonColor: Colors.lightBlueAccent,
+          textTheme: ButtonTextTheme.primary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+        ),
       ),
       home: ChoiceScreen(),
       routes: {
