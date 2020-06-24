@@ -1,4 +1,4 @@
-import 'package:Ch/screens/signup_screen.dart';
+import 'package:Ch/screens/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -36,7 +36,9 @@ class _ChoiceScreenState extends State<ChoiceScreen> {
                       borderRadius: BorderRadius.circular(30.0),
                     ),
                     onPressed: () {
-                      Navigator.of(context).push(SlideRightRoute(widget:LogInScreen()));
+                      Navigator.of(context)
+//                          .push(SlideRightRoute(widget: LogInScreen(_logIn)));
+                          .push(SlideRightRoute(widget: LogInScreen()));
                     },
                     color: Colors.white,
                     icon: FaIcon(
@@ -62,7 +64,8 @@ class _ChoiceScreenState extends State<ChoiceScreen> {
                       borderRadius: BorderRadius.circular(30.0),
                     ),
                     onPressed: () {
-                      Navigator.of(context).push(ScaleRoute(widget:SignUpScreen()));
+                      Navigator.of(context)
+                          .push(ScaleRoute(widget: SignUpScreen()));
                     },
                     color: Colors.lightBlueAccent,
                     icon: FaIcon(

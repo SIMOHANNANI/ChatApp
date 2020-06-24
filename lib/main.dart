@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 //import 'screens/chat_screen.dart';
 //import './screens/login_screen.dart';
 import './screens/choice_screen.dart';
-//import './screens/signup_screen.dart';
+//import './screens/sign_up_screen.dart';
 //import './screens/login_screen.dart';
 
 void main() {
@@ -16,9 +16,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Chat App',
       theme: ThemeData(
-        primaryColor: Colors.lightBlueAccent[100],
+        primaryColor: Colors.orangeAccent[200],
         primaryColorDark: Colors.pink,
         primarySwatch: Colors.blue,
+        errorColor: Colors.orange,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         buttonTheme: ButtonTheme.of(context).copyWith(
           buttonColor: Colors.lightBlueAccent,

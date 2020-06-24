@@ -7,23 +7,10 @@ class ScaleRoute extends PageRouteBuilder {
         return widget;
       },
       transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
-        return new ScaleTransition(
-          scale: new Tween<double>(
-            begin: 0.0,
-            end: 1.0,
-          ).animate(
-            CurvedAnimation(
-              parent: animation,
-              curve: Interval(
-                0.50,
-                1.00,
-                curve: Curves.fastLinearToSlowEaseIn,
-              ),
-            ),
-          ),
-          child: ScaleTransition(
-            scale: Tween<double>(
-              begin: 1.2,
+        return Scaffold(
+          body: ScaleTransition(
+            scale: new Tween<double>(
+              begin: 0.0,
               end: 1.0,
             ).animate(
               CurvedAnimation(
@@ -31,11 +18,26 @@ class ScaleRoute extends PageRouteBuilder {
                 curve: Interval(
                   0.50,
                   1.00,
-                  curve: Curves.linear,
+                  curve: Curves.fastLinearToSlowEaseIn,
                 ),
               ),
             ),
-            child: child,
+            child: ScaleTransition(
+              scale: Tween<double>(
+                begin: 1.2,
+                end: 1.0,
+              ).animate(
+                CurvedAnimation(
+                  parent: animation,
+                  curve: Interval(
+                    0.50,
+                    1.00,
+                    curve: Curves.linear,
+                  ),
+                ),
+              ),
+              child: child,
+            ),
           ),
         );
       }

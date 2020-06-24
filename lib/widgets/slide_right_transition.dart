@@ -11,21 +11,23 @@ class SlideRightRoute extends PageRouteBuilder {
             Animation<double> animation,
             Animation<double> secondaryAnimation,
             Widget child) {
-          return SlideTransition(
-            position: Tween<Offset>(
-              begin: const Offset(0, 1),
-              end: Offset.zero,
-            ).animate(
-              CurvedAnimation(
-                parent: animation,
-                curve: Interval(
-                  0.00,
-                  0.60,
-                  curve: Curves.linear,
+          return Scaffold(
+            body: SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(0, 1),
+                end: Offset.zero,
+              ).animate(
+                CurvedAnimation(
+                  parent: animation,
+                  curve: Interval(
+                    0.00,
+                    0.60,
+                    curve: Curves.linear,
+                  ),
                 ),
               ),
+              child: child,
             ),
-            child: child,
           );
         });
 }
