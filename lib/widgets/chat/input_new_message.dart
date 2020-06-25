@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 class InputNewMessage extends StatefulWidget {
   _InputNewMessage createState() => _InputNewMessage();
 }
@@ -13,6 +13,11 @@ class _InputNewMessage extends State<InputNewMessage> {
     // sending a text message :
     //...
     print('Text message');
+    Firestore.instance.collection('chat').add({
+      'message':_newMessageController.text,
+      'sentAt': Timestamp.now(),
+    });
+    _newMessageController.clear();
   }
 
   void _sendVoiceMessage() {
@@ -21,14 +26,13 @@ class _InputNewMessage extends State<InputNewMessage> {
     print('Voice message');
   }
 
+  // Commented text but would be useful later on ..
 //  @override
 //  void initState() {
 //    super.initState();
 //    _isVoiceMessage = true;
-//    _newMessageController.addListener((){setState(() {
-//      _isVoiceMessage = !_isVoiceMessage;
-//    });});
 //  }
+
   @override
   void dispose() {
     // Clean up the controller when the widget is removed from the
@@ -48,30 +52,24 @@ class _InputNewMessage extends State<InputNewMessage> {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(40.0), color: Colors.white),
             margin:
-                EdgeInsets.only(left: 10.0, right: 10, top: 20.0, bottom: 10),
+                EdgeInsets.only(left: 10.0, right: 10, top: 10.0, bottom: 10),
             padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
             child: Form(
               key: _formKey,
               child: TextFormField(
                 controller: _newMessageController,
+                textCapitalization: TextCapitalization.sentences,
                 decoration: InputDecoration.collapsed(
                   hintText: 'Type a message ...',
                   hintStyle: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 onChanged: (value) {
                   setState(() {
-//                    _newMessageController.value = TextEditingValue(
-//                        text: _newMessageController.text,
-//                        selection: TextSelection(
-//                          baseOffset: _newMessageController.text.length,
-//                          extentOffset: null,
-//                        ));
-                    if (value.length > 0) {
+                    if (value.trim().length > 0) {
                       _isVoiceMessage = false;
-                    }else{
+                    } else {
                       _isVoiceMessage = true;
                     }
-                    print(value);
                   });
                 },
               ),
@@ -79,28 +77,28 @@ class _InputNewMessage extends State<InputNewMessage> {
           ),
         ),
         Container(
-            decoration:
-                BoxDecoration(shape: BoxShape.circle, color: Colors.green[700]),
-            margin:
-                EdgeInsets.only(left: 0.0, right: 0.0, top: 20.0, bottom: 10),
-            child: IconButton(
-              icon: _isVoiceMessage
-                  ? Icon(
-                      Icons.send,
-                      size: 20,
-                    )
-                  : Icon(
-                      Icons.keyboard_voice,
-                      size: 20,
-                    ),
-              onPressed: () {
-                // Send text message if the length of the message is greater than zero :
-                _newMessageController.text.trim().length > 0
-                    ? _sendTextMessage()
-                    : _sendVoiceMessage();
-              },
-              color: Colors.white,
-            )),
+          decoration:
+              BoxDecoration(shape: BoxShape.circle, color: Colors.green[700]),
+          margin: EdgeInsets.only(left: 0.0, right: 0.0, top: 20.0, bottom: 10),
+          child: IconButton(
+            icon: _isVoiceMessage
+                ? Icon(
+                    Icons.keyboard_voice,
+                    size: 20,
+                  )
+                : Icon(
+                    Icons.send,
+                    size: 20,
+                  ),
+            onPressed: () {
+              // Send text message if the length of the message is greater than zero :
+              _newMessageController.text.trim().length > 0
+                  ? _sendTextMessage()
+                  : _sendVoiceMessage();
+            },
+            color: Colors.white,
+          ),
+        ),
         SizedBox(
           width: 10.0,
         ),
