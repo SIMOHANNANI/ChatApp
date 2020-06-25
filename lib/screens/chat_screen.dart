@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../widgets/chat/messages.dart';
+import '../widgets/chat/input_new_message.dart';
 
 class CharScreen extends StatefulWidget {
   _CharScreen createState() => _CharScreen();
@@ -11,13 +12,17 @@ class _CharScreen extends State<CharScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: Text('Chat application'),
         actions: <Widget>[
           DropdownButton(
-            icon: Icon(
-              Icons.reorder,
-              color: Theme.of(context).primaryIconTheme.color,
+            icon: Container(
+              margin: EdgeInsets.all(10.0,),
+              child: Icon(
+                Icons.reorder,
+                color: Theme.of(context).primaryIconTheme.color,
+              ),
             ),
             items: [
               DropdownMenuItem(
@@ -49,15 +54,17 @@ class _CharScreen extends State<CharScreen> {
           child: Column(
         children: <Widget>[
           Expanded(child: Messages()),
+          InputNewMessage(),
+
         ],
       )),
-      floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.data_usage),
-          onPressed: () {
-            Firestore.instance
-                .collection('chats/7NTl6R21EHDDw1XP2rrA/messages')
-                .add({'text': 'added in the app'});
-          }),
+//      floatingActionButton: FloatingActionButton(
+//          child: Icon(Icons.data_usage),
+//          onPressed: () {
+//            Firestore.instance
+//                .collection('chats/7NTl6R21EHDDw1XP2rrA/messages')
+//                .add({'text': 'added in the app'});
+//          }),
     );
   }
 }

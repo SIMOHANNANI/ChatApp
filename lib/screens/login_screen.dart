@@ -25,8 +25,9 @@ class _AuthScreen extends State<LogInScreen> {
   final TextEditingController _email = TextEditingController();
   var _isLoading = false;
   final _auth = FirebaseAuth.instance;
+  bool _isVisible = false;
 
-  Future<void> _logIn(String email, String password,BuildContext ctx) async {
+  Future<void> _logIn(String email, String password, BuildContext ctx) async {
     // Log in the registered user with credential provided :
     try {
       setState(() {
@@ -52,13 +53,14 @@ class _AuthScreen extends State<LogInScreen> {
         backgroundColor: Theme.of(ctx).errorColor,
       ));
       print(message);
-    }catch (e){
+    } catch (e) {
       setState(() {
         _isLoading = false;
       });
       print(e);
     }
   }
+
   void _validateInputs(BuildContext context) {
     final _isValid = _formKey.currentState.validate();
     if (_isValid) {
@@ -69,6 +71,7 @@ class _AuthScreen extends State<LogInScreen> {
       _logIn(_email.text, _password.text, context);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +81,6 @@ class _AuthScreen extends State<LogInScreen> {
         backgroundColor: Colors.transparent,
       ),
       body: Padding(
-
         padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween, //vert
@@ -132,7 +134,7 @@ class _AuthScreen extends State<LogInScreen> {
                       ),
                       TextFormField(
                         controller: _password,
-                        obscureText: true,
+                        obscureText: !_isVisible,
                         decoration: InputDecoration(
                           prefixIcon: Icon(
                             FontAwesomeIcons.key,
@@ -140,6 +142,18 @@ class _AuthScreen extends State<LogInScreen> {
                           ),
                           labelText: 'PASSWORD',
                           labelStyle: TextStyle(fontSize: 10.0),
+                          suffixIcon: FlatButton.icon(
+                              onPressed: (){
+                                setState(() {
+                                  _isVisible = !_isVisible;
+                                });
+                              },
+                              icon: Icon(
+                                !_isVisible
+                                    ? Icons.remove_red_eye
+                                    : Icons.visibility_off,
+                              ),
+                              label: Text('')),
                           contentPadding: EdgeInsets.symmetric(
                               vertical: 0.0, horizontal: 0.0),
                         ),
@@ -180,28 +194,27 @@ class _AuthScreen extends State<LogInScreen> {
                 children: <Widget>[
                   _isLoading
                       ? Center(
-                      child: SizedBox(
-                        height: 15.0,
-                        width: 15.0,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2.0,
-                          valueColor:
-                          AlwaysStoppedAnimation<Color>(Colors.blue),
-                        ),
-                      ))
+                          child: SizedBox(
+                          height: 15.0,
+                          width: 15.0,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.0,
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.blue),
+                          ),
+                        ))
                       : Center(
-                    child: SizedBox(
-                      width: 15.0,
-                      child: null,
-                    ),
-                  ),
+                          child: SizedBox(
+                            width: 15.0,
+                            child: null,
+                          ),
+                        ),
                   SizedBox(
                     width: 10.0,
                   ),
                   Text(
                     'LOG IN',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold),
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
                     width: 20.0,
