@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../widgets/chat/messages.dart';
 
 class CharScreen extends StatefulWidget {
   _CharScreen createState() => _CharScreen();
@@ -11,34 +13,50 @@ class _CharScreen extends State<CharScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Chat application'),
+        actions: <Widget>[
+          DropdownButton(
+            icon: Icon(
+              Icons.reorder,
+              color: Theme.of(context).primaryIconTheme.color,
+            ),
+            items: [
+              DropdownMenuItem(
+                child: Container(
+                  child: Row(
+                    children: <Widget>[
+                      Icon(Icons.exit_to_app),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      Text('Log Out'),
+                    ],
+                    mainAxisAlignment: MainAxisAlignment.center,
+                  ),
+                ),
+                value: 'logout',
+              ),
+            ],
+            onChanged: (itemValue) {
+              if (itemValue == 'logout') {
+                // logout the user :
+                FirebaseAuth.instance.signOut();
+              }
+            },
+          ),
+        ],
       ),
-      body: StreamBuilder(
-          stream: Firestore.instance
-              .collection('chats/7NTl6R21EHDDw1XP2rrA/messages/')
-              .snapshots(),
-          builder: (ctx, stream) {
-            if (stream.connectionState == ConnectionState.waiting) {
-              return Center(
-                  child: SizedBox(
-                height: 100,
-                width: 100,
-                child: CircularProgressIndicator(),
-              ));
-            }
-            final documents = stream.data.documents;
-            return ListView.builder(
-                itemCount: documents.length,
-                itemBuilder: (ctx, index) {
-                  return Container(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
-                    child: Text('${documents[index]['text']}'),
-                  );
-                });
-          }),
-      floatingActionButton:
-          FloatingActionButton(child: Icon(Icons.data_usage), onPressed: (){
-            Firestore.instance.collection('chats/7NTl6R21EHDDw1XP2rrA/messages').add({'text':'added in the app'});
+      body: Container(
+          child: Column(
+        children: <Widget>[
+          Expanded(child: Messages()),
+        ],
+      )),
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.data_usage),
+          onPressed: () {
+            Firestore.instance
+                .collection('chats/7NTl6R21EHDDw1XP2rrA/messages')
+                .add({'text': 'added in the app'});
           }),
     );
   }

@@ -23,14 +23,25 @@ class _AuthScreen extends State<LogInScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _password = TextEditingController();
   final TextEditingController _email = TextEditingController();
+  var _isLoading = false;
   final _auth = FirebaseAuth.instance;
 
   Future<void> _logIn(String email, String password,BuildContext ctx) async {
     // Log in the registered user with credential provided :
     try {
+      setState(() {
+        _isLoading = true;
+      });
       final logInResult = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
+          email: email.trim(), password: password);
+      setState(() {
+        _isLoading = false;
+      });
+      Navigator.of(ctx).pop();
     } on PlatformException catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
       var message = "Oops! something went wrong";
       if (e.message != null) {
         // If the error occurred ;
@@ -41,6 +52,11 @@ class _AuthScreen extends State<LogInScreen> {
         backgroundColor: Theme.of(ctx).errorColor,
       ));
       print(message);
+    }catch (e){
+      setState(() {
+        _isLoading = false;
+      });
+      print(e);
     }
   }
   void _validateInputs(BuildContext context) {
@@ -56,11 +72,11 @@ class _AuthScreen extends State<LogInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.yellow[200],
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
-      backgroundColor: Colors.white,
       body: Padding(
 
         padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 0),
@@ -143,14 +159,54 @@ class _AuthScreen extends State<LogInScreen> {
                 ),
               ),
             ),
+//            FlatButton(
+//              padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 30.0),
+//              onPressed: () => _validateInputs(context),
+//              color: Colors.lightBlueAccent,
+//              child: Text(
+//                'LOG IN',
+//                style:
+//                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+//              ),
+//            ),
             FlatButton(
               padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 30.0),
               onPressed: () => _validateInputs(context),
-              color: Colors.lightBlueAccent,
-              child: Text(
-                'LOG IN',
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  _isLoading
+                      ? Center(
+                      child: SizedBox(
+                        height: 15.0,
+                        width: 15.0,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2.0,
+                          valueColor:
+                          AlwaysStoppedAnimation<Color>(Colors.blue),
+                        ),
+                      ))
+                      : Center(
+                    child: SizedBox(
+                      width: 15.0,
+                      child: null,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10.0,
+                  ),
+                  Text(
+                    'LOG IN',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    width: 20.0,
+                  ),
+                ],
               ),
             ),
           ],

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-//import 'screens/chat_screen.dart';
-//import './screens/login_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'screens/chat_screen.dart';
 import './screens/choice_screen.dart';
-//import './screens/sign_up_screen.dart';
-//import './screens/login_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,6 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Chat App',
       theme: ThemeData(
         primaryColor: Colors.orangeAccent[200],
@@ -29,7 +28,18 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: ChoiceScreen(),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.onAuthStateChanged,
+        builder: (context, userSnap){
+          // a valid token
+          if(userSnap.hasData){
+            return CharScreen();
+          }
+          else{
+          return ChoiceScreen();
+          }
+        },
+      ),
       routes: {
 //        LogInScreen.routeName : (ctx) => LogInScreen(),
 //        SignUpScreen.routeName: (ctx) => SignUpScreen(),
