@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 class InputNewMessage extends StatefulWidget {
   _InputNewMessage createState() => _InputNewMessage();
 }
@@ -9,15 +11,20 @@ class _InputNewMessage extends State<InputNewMessage> {
   final TextEditingController _newMessageController = TextEditingController();
   bool _isVoiceMessage = true;
 
-  void _sendTextMessage() {
+  Future <void> _sendTextMessage() async {
     // sending a text message :
     //...
     print('Text message');
-    Firestore.instance.collection('chat').add({
-      'message':_newMessageController.text,
+    final currentUser = await FirebaseAuth.instance.currentUser();
+     Firestore.instance.collection('chat').add({
+      'message': _newMessageController.text,
       'sentAt': Timestamp.now(),
+      'userId': currentUser.uid,
     });
     _newMessageController.clear();
+    setState(() {
+      _isVoiceMessage = true;
+    });
   }
 
   void _sendVoiceMessage() {
@@ -100,7 +107,7 @@ class _InputNewMessage extends State<InputNewMessage> {
           ),
         ),
         SizedBox(
-          width: 10.0,
+          width: 20.0,
         ),
       ],
     );
