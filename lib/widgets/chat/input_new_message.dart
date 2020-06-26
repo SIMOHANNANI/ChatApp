@@ -52,7 +52,7 @@ class _InputNewMessage extends State<InputNewMessage> {
   Widget build(BuildContext context) {
     return Row(
 //      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
         Expanded(
           child: Container(
@@ -107,7 +107,7 @@ class _InputNewMessage extends State<InputNewMessage> {
           ),
         ),
         SizedBox(
-          width: 20.0,
+          width: 12.0,
         ),
       ],
     );

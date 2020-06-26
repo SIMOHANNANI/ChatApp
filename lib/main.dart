@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Chat App',
       theme: ThemeData(
-        primaryColor: Colors.orangeAccent[200],
+        primaryColor: Colors.green,
         primaryColorDark: Colors.pink,
         primarySwatch: Colors.blue,
         errorColor: Colors.orange,

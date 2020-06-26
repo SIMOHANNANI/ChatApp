@@ -28,6 +28,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _username = TextEditingController();
   var _isLoading = false;
   final _auth = FirebaseAuth.instance;
+  bool _isVisible = false;
 
   Future<void> _signUp(
       String username, String email, String password, BuildContext ctx) async {
@@ -49,6 +50,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       setState(() {
         _isLoading = false;
       });
+      Navigator.of(ctx).pop();
     } on PlatformException catch (e) {
       setState(() {
         _isLoading = false;
@@ -111,6 +113,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           style: TextStyle(
                               fontSize: 20.0, fontWeight: FontWeight.bold),
                         ),
+
+                      ),
+                      SizedBox(height: 10.0,),
+                      SizedBox(
+                        height: 200.0,
+                        width: 200.0,
+                        child: Center(
+                          child: Stack(
+                            children: <Widget>[
+                              CircleAvatar(radius: 70.0,),
+                              FlatButton.icon(onPressed: (){}, icon: Icon(Icons.image), label: Text('picka picture'))
+                            ],
+                          ),
+                        ),
                       ),
                       TextFormField(
                         controller: _username,
@@ -171,8 +187,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         height: 20.0,
                       ),
                       TextFormField(
+                        obscureText: !_isVisible,
                         controller: _password,
-                        obscureText: true,
                         decoration: InputDecoration(
                           prefixIcon: Icon(
                             FontAwesomeIcons.key,
@@ -180,6 +196,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           labelText: 'PASSWORD',
                           labelStyle: TextStyle(fontSize: 10.0),
+                          suffixIcon: FlatButton.icon(
+                              onPressed: (){
+                                setState(() {
+                                  _isVisible = !_isVisible;
+                                });
+                              },
+                              icon: Icon(
+                                !_isVisible
+                                    ? Icons.remove_red_eye
+                                    : Icons.visibility_off,
+                              ),
+                              label: Text('')),
                           contentPadding: EdgeInsets.symmetric(
                               vertical: 0.0, horizontal: 0.0),
                         ),
@@ -198,8 +226,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         height: 20.0,
                       ),
                       TextFormField(
+                        obscureText: !_isVisible,
                         controller: _confirmPassword,
-                        obscureText: true,
                         decoration: InputDecoration(
                           prefixIcon: Icon(
                             FontAwesomeIcons.key,

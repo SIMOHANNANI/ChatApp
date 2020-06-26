@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 //import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
@@ -8,7 +9,9 @@ import './message_bubble.dart';
 class Messages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery.of(context).size;
+    final deviceSize = MediaQuery
+        .of(context)
+        .size;
     return Container(
       padding: EdgeInsets.only(top: 20.0),
       child: FutureBuilder(
@@ -17,10 +20,10 @@ class Messages extends StatelessWidget {
           if (futureSnapshot.connectionState == ConnectionState.waiting) {
             return Center(
                 child: SizedBox(
-              width: 100.0,
-              height: 100.0,
-              child: CircularProgressIndicator(),
-            ));
+                  width: 100.0,
+                  height: 100.0,
+                  child: CircularProgressIndicator(),
+                ));
           }
           return StreamBuilder(
               stream: Firestore.instance
@@ -43,14 +46,17 @@ class Messages extends StatelessWidget {
 
                 return ListView.builder(
                   itemCount: chatData.length,
-                  itemBuilder: (ctx, index) => MessageBubble(
-                    authUserId: futureSnapshot.data.uid,
-                    storedUsersId: chatData[index]['userId'],
-                    message: chatData[index]['message'],
-                    sentAt: chatData[index]['sentAt'],
-                    isMine: futureSnapshot.data.uid == chatData[index]['userId'],
-                    deviceSize:deviceSize,
-                  ),
+                  itemBuilder: (ctx, index) =>
+                      MessageBubble(
+                          authUserId: futureSnapshot.data.uid,
+                          storedUsersId: chatData[index]['userId'],
+                          message: chatData[index]['message'],
+                          sentAt: chatData[index]['sentAt'],
+                          isMine: futureSnapshot.data.uid ==
+                              chatData[index]['userId'],
+                          deviceSize: deviceSize,
+                          key: ValueKey(chatData[index].documentID),
+                      ),
                 );
               });
         },
