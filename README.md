@@ -2,7 +2,7 @@
 <h3>Still under development ... </h3>
 <p>
 <img src="logo.png" align="right" >
-A one-to-one chat app built on Flutter with firebase authentication and image sharing capability.
+A one-to-one chat app built on Flutter with firebase authentication.
 
 
 For help getting started with Flutter, view the online
