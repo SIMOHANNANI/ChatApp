@@ -5,10 +5,11 @@ For help getting started with Flutter, view the online
 [documentation](https://flutter.io/).
 You can check out the corresponding Google code lab [here](https://codelabs.developers.google.com/codelabs/flutter/index.html?index=..%2F..%2Findex#0).
 # Demo
-![ChatApp Logo](screen.gif)
+<img src="screen.gif" width="200">
 
 ## Getting Started
 **Note:** Make sure your Flutter environment is setup.
+
 
 #### Installation
 
