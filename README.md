@@ -15,11 +15,11 @@ You can check out the corresponding Google code lab [here](https://codelabs.deve
 
 In the command terminal, run the following commands:
 
-    $ git clone git@github.com:rohan20/flutter-chat-app.git
-    $ cd flutter-chat-app/
+    $ git clone https://github.com/SIMOHANNANI/ChatApp.git
+    $ cd ChatApp/
     $ flutter run
 
-# Simulate for Android
+# Simulate for Android(Not yet tested on MacOs)
 
     Make sure you have an Android emulator installed and running.
     Run the following command in your terminal.
